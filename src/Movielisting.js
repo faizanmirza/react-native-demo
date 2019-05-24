@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator, FlatList } from 'react-native';
 import MovieListItem from './MovieListItem'
 import { API_BASE_URL } from './Constants';
 import axios from 'axios'
@@ -11,6 +11,7 @@ export class Movielisting extends React.Component {
         {
             movieList: [],
             page: 1,
+            title: 'mission'
         }
 
     componentDidMount() {
@@ -18,19 +19,20 @@ export class Movielisting extends React.Component {
     }
 
     getMovies() {
-        const { movieList, page } = this.state;
-        
-        axios.get('http://www.omdbapi.com/?apikey=3ca237af&s=mission&page=' + page)
+        const { movieList, page, title } = this.state;
+
+        axios.get('http://www.omdbapi.com/?apikey=3ca237af&s=' + title + '&page=' + page)
             .then(response => {
 
                 data = response.data['Search']
                 this.setState({
-                    movieList: page === 1 ? data : [...movieList, ...data]
+                    movieList: page === 1 ? data : [...this.state.movieList, ...data],
                 })
             })
             .catch(function (error) {
                 console.log(error);
             })
+
     }
 
     loadMoreMovies = () => {
@@ -47,17 +49,56 @@ export class Movielisting extends React.Component {
         );
     };
 
+    onTitleChange = (text) => {
+        var title = this.text;
+
+        this.setState({
+            title: String(title).length > 3 ? text : "mission"
+        })
+        this.setState({
+            movieList: [],
+            page: 1
+        })
+
+        this.getMovies()
+    };
+
+    rowItem = (item) => {
+        return (<TouchableOpacity onPress={() => this.onListItemClick(item)}><MovieListItem title={item.Title} year={item.Year} key={i => item.imdbID} type={item.Type}
+            image_url={item.Poster} /></TouchableOpacity>)
+    };
+
+    onListItemClick = (item) => {
+        console.log("Imdb Id " + item.imdbID);
+
+        this.props.navigation.navigate('Details', {
+            itemId: item.id,
+            title: item.title.rendered,
+        });
+    }
+
     render() {
 
         movies = this.state.movieList;
 
         return (<View style={styles.container}>
+            <View style={styles.searchBox}>
+                <TextInput
+                    style={styles.searchTitle}
+                    editable={true}
+                    maxLength={40}
+                    multiline={false}
+                    clearButtonMode="while-editing"
+                    borderStyle="solid"
+                    placeholder="Title"
+                    onChangeText={(text) => this.onTitleChange(text)} />
+
+            </View>
             <FlatList style={styles.list} data={movies}
                 onEndReached={this.loadMoreMovies}
                 onEndThreshold={0}
                 renderItem={({ item }) => {
-                    return (<MovieListItem title={item.Title} year={item.Year} key={i => item.imdbID} type={item.Type}
-                        image_url={item.Poster} />);
+                    return this.rowItem(item)
                 }
                 }
                 keyExtractor={(item, index) => item.imdbID}
@@ -73,5 +114,15 @@ const styles = StyleSheet.create({
     },
     list: {
         flexGrow: 0
+    },
+    searchBox: {
+        flexDirection: 'row',
+        padding: 10,
+        marginLeft: 10
+    },
+    searchTitle: {
+        height: 40,
+        padding: 10,
+        borderBottomColor: 'grey'
     }
 })

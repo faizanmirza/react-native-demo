@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Button ,Image, View, Text, ReactNative } from 'react-native';
+import { StyleSheet, Button, Image, View, Text, ReactNative } from 'react-native';
 
 
 export default class MovieListItem extends React.Component {
 
-    render() {        
+
+
+    render() {
         return (
             <View style={styles.container}>
                 <Image source={{ uri: this.props.image_url }} style={styles.photo} />
@@ -14,10 +16,10 @@ export default class MovieListItem extends React.Component {
                             {this.props.title}
                         </Text>
                         <Text style={styles.rating} >
-                        {this.props.year}
-                    </Text>
+                            {this.props.year}
+                        </Text>
                     </View>
-                    <Button style={styles.description} title="Rate It"/>
+                    <Button style={styles.description} title="Rate It" />
                 </View>
             </View>
         )
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 12,
-        marginTop: 10        
+        marginTop: 10
     },
     photo: {
         height: 150,
@@ -62,6 +64,6 @@ const styles = StyleSheet.create({
     },
     header_text: {
         flex: 1,
-        flexDirection: 'row',        
+        flexDirection: 'row',
     }
 });
