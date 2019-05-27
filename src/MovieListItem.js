@@ -4,8 +4,6 @@ import { StyleSheet, Button, Image, View, Text, ReactNative } from 'react-native
 
 export default class MovieListItem extends React.Component {
 
-
-
     render() {
         return (
             <View style={styles.container}>

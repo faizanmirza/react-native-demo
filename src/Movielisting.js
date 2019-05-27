@@ -6,6 +6,10 @@ import { API_BASE_URL } from './Constants';
 import axios from 'axios'
 
 export class Movielisting extends React.Component {
+   
+    static navigationOptions = {
+        title: 'Movielisting'
+       };
 
     state =
         {
@@ -32,7 +36,6 @@ export class Movielisting extends React.Component {
             .catch(function (error) {
                 console.log(error);
             })
-
     }
 
     loadMoreMovies = () => {
@@ -70,11 +73,7 @@ export class Movielisting extends React.Component {
 
     onListItemClick = (item) => {
         console.log("Imdb Id " + item.imdbID);
-
-        this.props.navigation.navigate('Details', {
-            itemId: item.id,
-            title: item.title.rendered,
-        });
+        this.props.navigation.navigate('Detail')
     }
 
     render() {
