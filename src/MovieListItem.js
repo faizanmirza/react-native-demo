@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, Image, View, Text, ReactNative } from 'react-native';
+import { StyleSheet, Button, Image, View, Text, ReactNative,Alert } from 'react-native';
 
 
 export default class MovieListItem extends React.Component {
@@ -17,10 +17,22 @@ export default class MovieListItem extends React.Component {
                             {this.props.year}
                         </Text>
                     </View>
-                    <Button style={styles.description} title="Rate It" />
+                    <Button style={styles.description} title="Rate It" onPress={this.onRatingClick} />
                 </View>
             </View>
         )
+    }
+
+    onRatingClick(){
+        
+        Alert.alert(
+            'Rating It',
+            'Coming Soon',
+            [              
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
     }
 }
 

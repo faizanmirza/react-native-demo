@@ -56,7 +56,7 @@ export class Movielisting extends React.Component {
         var title = this.text;
 
         this.setState({
-            title: String(title).length > 3 ? text : "mission"
+            title: String(title).length >= 2 ? text : "mission"
         })
         this.setState({
             movieList: [],
@@ -122,6 +122,14 @@ const styles = StyleSheet.create({
     searchTitle: {
         height: 40,
         padding: 10,
-        borderBottomColor: 'grey'
+        borderColor: '#CCCCCC',
+        width:250,
+        textAlign:'center',
+        flex:1,
+        fontSize: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        borderWidth: 1
+ 
     }
 })
